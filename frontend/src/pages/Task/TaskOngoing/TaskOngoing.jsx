@@ -1,5 +1,5 @@
 // src/pages/Task/TaskOngoing/TaskOngoing.jsx
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import CreateTask from "../../../components/CreateTask/CreateTask";
 import { PiClipboardTextBold } from "react-icons/pi";
@@ -7,15 +7,19 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import "./TaskOngoing.css";
 
 // Toastify
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// ✅ Safe date parser
+// ✅ Helper: Convert date string to Date object for sorting (safe)
 const parseDate = (dateStr) => {
-  if (!dateStr || typeof dateStr !== "string") return new Date(0); // fallback
+  if (!dateStr || typeof dateStr !== "string") {
+    return new Date(0); // fallback minimal date
+  }
 
   const parts = dateStr.split(" ");
-  if (parts.length < 3) return new Date(0);
+  if (parts.length < 3) {
+    return new Date(0); // invalid format, fallback
+  }
 
   const [month, day, year] = parts;
   const monthNames = {
@@ -33,14 +37,15 @@ const parseDate = (dateStr) => {
     December: 11,
   };
 
-  return new Date(
-    parseInt(year) || 0,
-    monthNames[month] ?? 0,
-    parseInt(day?.replace(",", "")) || 1
-  );
+  const monthIndex = monthNames[month];
+  if (monthIndex === undefined || isNaN(parseInt(year))) {
+    return new Date(0); // fallback if something's off
+  }
+
+  return new Date(parseInt(year), monthIndex, parseInt(day.replace(",", "")));
 };
 
-// Helper: Get weekday from date string
+// ✅ Helper: Get weekday from date string
 const getWeekday = (dateStr) => {
   const date = parseDate(dateStr);
   if (isNaN(date.getTime())) return "";
@@ -48,20 +53,16 @@ const getWeekday = (dateStr) => {
 };
 
 const TaskOngoing = () => {
+  // ✅ Get pre-filtered upcoming tasks from ToDoPage layout
   const { upcomingTasks } = useOutletContext();
+
+  // ✅ Local state for tasks (so new tasks can be added)
   const [tasks, setTasks] = useState(upcomingTasks || []);
 
-  // ✅ prevent duplicate toasts
-  const lastTaskId = useRef(null);
-
+  // ✅ Handler for new task creation
   const handleCreateTask = (newTask) => {
     setTasks((prev) => [...prev, newTask]);
-
-    // Show toast only if this task hasn't been toasted yet
-    if (lastTaskId.current !== newTask.id) {
-      toast.success("Task created successfully!");
-      lastTaskId.current = newTask.id;
-    }
+    toast.success("Task created successfully!");
   };
 
   // Group tasks by postDate
@@ -72,11 +73,12 @@ const TaskOngoing = () => {
     return groups;
   }, {});
 
-  // Sort dates: newest first (ignores "Unknown Date")
+  // Sort dates: newest first
   const sortedDates = Object.keys(groupedByDate).sort(
     (a, b) => parseDate(b) - parseDate(a)
   );
 
+  // Track open/closed state for each date group
   const [openGroups, setOpenGroups] = useState(() =>
     sortedDates.reduce((acc, date) => ({ ...acc, [date]: true }), {})
   );
@@ -91,8 +93,10 @@ const TaskOngoing = () => {
   return (
     <div className="ongoing-app">
       <main className="ongoing-main">
+        {/* ✅ Pass fixed handler */}
         <CreateTask onTaskCreated={handleCreateTask} />
 
+        {/* Task List Grouped by postDate */}
         {sortedDates.length > 0 ? (
           sortedDates.map((date) => {
             const dateTasks = groupedByDate[date];
@@ -163,10 +167,24 @@ const TaskOngoing = () => {
               </div>
             );
           })
-        ) : ( 
+        ) : (
           <div className="ongoing-no-tasks">No upcoming tasks</div>
         )}
       </main>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

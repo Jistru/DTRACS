@@ -11,7 +11,7 @@ import AttachedFiles from "../../components/AttachedFiles/AttachedFiles";
 import TaskActions from "../../components/TaskActions/TaskActions";
 import CommentList from "../../components/CommentList/CommentList";
 import SharedButton from "../../components/SharedButton/SharedButton";
-import { toast } from "react-toastify"; // ✅ only toast, not ToastContainer
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useClickOutside from "../../hooks/useClickOutside";
 import { sectionData } from "../../data/focals";
@@ -40,7 +40,7 @@ const ToDoDetailPage = () => {
 
   if (section && Array.isArray(section)) {
     for (const item of section) {
-      const match = item.tasklist?.find((t) => createSlug(t.title) === taskSlug);
+      const match = item.tasklist?.find(t => createSlug(t.title) === taskSlug);
       if (match) {
         focalEntry = item;
         task = match;
@@ -54,12 +54,13 @@ const ToDoDetailPage = () => {
     if (showCommentBox) setShowCommentBox(false);
   });
 
-  // ✅ Sync completion status from data
+  // ✅ Move ALL Hooks to the top — before any conditional return
+  // Sync completion status from data
   useEffect(() => {
     if (task && task.status === "Completed") {
       setIsCompleted(true);
     }
-  }, [task]);
+  }, [task]); // ✅ Now safe — runs when task is available
 
   // Handle task not found
   if (!focalEntry || !task) {
@@ -138,9 +139,7 @@ const ToDoDetailPage = () => {
     ? JSON.parse(savedUser)
     : { firstName: "Unknown", lastName: "User", middleName: "", email: "unknown@deped.gov.ph" };
 
-  const fullName = `${currentUser.firstName} ${
-    currentUser.middleName ? currentUser.middleName + " " : ""
-  }${currentUser.lastName}`.trim();
+  const fullName = `${currentUser.firstName} ${currentUser.middleName ? currentUser.middleName + " " : ""}${currentUser.lastName}`.trim();
 
   const handleCommentSubmit = (html) => {
     if (!html || !html.trim() || html === "<p><br></p>") {
@@ -154,16 +153,14 @@ const ToDoDetailPage = () => {
       email: currentUser.email,
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
-      time: new Date()
-        .toLocaleString("en-US", {
-          month: "numeric",
-          day: "numeric",
-          year: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        })
-        .replace(/,/g, ""),
+      time: new Date().toLocaleString("en-US", {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }).replace(/,/g, ""),
       text: html,
       isEdited: false,
     };
@@ -243,18 +240,24 @@ const ToDoDetailPage = () => {
 
         {/* Header */}
         <div className="task-header">
-          <div
-            className="task-icon"
-            style={{
+          <div 
+            className="task-icon" 
+            style={{ 
               background: taskStatus === "Past Due" ? "#D32F2F" : "#333",
-              transition: "background 0.3s ease",
+              transition: "background 0.3s ease"
             }}
           >
-            <PiClipboardTextBold className="icon-lg" style={{ color: "white" }} />
+            <PiClipboardTextBold 
+              className="icon-lg" 
+              style={{ 
+                color: "white" 
+              }} 
+            />
           </div>
           <h1 className="task-title">{taskTitle}</h1>
           <div className="task-status">
             {isCompleted ? (
+              // Completed
               <span style={{ color: "#4CAF50", display: "flex", alignItems: "center", gap: "4px" }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
@@ -262,18 +265,12 @@ const ToDoDetailPage = () => {
                 Completed
               </span>
             ) : taskStatus === "Past Due" ? (
-              <span
-                style={{
-                  color: "#D32F2F",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  fontWeight: "bold",
-                }}
-              >
+              // Past Due
+              <span style={{ color: "#D32F2F", display: "flex", alignItems: "center", gap: "4px", fontWeight: "bold" }}>
                 ⚠️ Past Due
               </span>
             ) : (
+              // Default (Upcoming or Assigned)
               <span style={{ color: "#2E7D32", fontWeight: "bold" }}>Assigned</span>
             )}
           </div>
@@ -282,9 +279,7 @@ const ToDoDetailPage = () => {
         {/* Meta Info */}
         <div className="task-meta">
           <div className="task-category">{focalTitle}</div>
-          <div className="task-due">
-            Due {dueDate} at {dueTime}
-          </div>
+          <div className="task-due">Due {dueDate} at {dueTime}</div>
         </div>
 
         <div className="divider" />
@@ -337,6 +332,19 @@ const ToDoDetailPage = () => {
           />
         )}
       </main>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

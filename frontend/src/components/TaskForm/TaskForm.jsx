@@ -1,16 +1,56 @@
 // src/components/TaskForm/TaskForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FiUpload } from "react-icons/fi";
 import { IoMdLink } from "react-icons/io";
-import { HiMiniBold } from "react-icons/hi2";
-import { FaItalic } from "react-icons/fa";
-import { FaUnderline } from "react-icons/fa";
-import { MdFormatListBulleted } from "react-icons/md";
+import { useQuill } from 'react-quilljs';
+import AttachedFiles from '../AttachedFiles/AttachedFiles';
+import 'quill/dist/quill.snow.css';
 import './TaskForm.css';
 
-// Toastify
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// ✅ Rich Text Editor Component using useQuill
+const RichTextEditor = ({ value, onChange }) => {
+  const { quill, quillRef } = useQuill({
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['clean']
+      ]
+    },
+    placeholder: 'Enter task description with formatting...'
+  });
+
+  const hasSetContent = useRef(false);
+
+  // ✅ Set initial value
+  useEffect(() => {
+    if (quill && !hasSetContent.current) {
+      quill.clipboard.dangerouslyPasteHTML(value || '');
+      hasSetContent.current = true;
+    }
+  }, [quill, value]);
+
+  // ✅ Listen for changes
+  useEffect(() => {
+    if (quill) {
+      const handler = () => {
+        const html = quill.root.innerHTML;
+        onChange(html);
+      };
+      quill.on('text-change', handler);
+      return () => {
+        quill.off('text-change', handler);
+      };
+    }
+  }, [quill, onChange]);
+
+  return (
+    <div style={{ height: '150px', marginBottom: '50px' }}>
+      <div ref={quillRef} style={{ height: '100%' }} />
+    </div>
+  );
+};
 
 const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
   const [formData, setFormData] = useState({
@@ -24,9 +64,17 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
 
   const [isLinkInputVisible, setIsLinkInputVisible] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isLinkValid, setIsLinkValid] = useState(true); // ✅ Track link validity
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    if (name === 'linkUrl') {
+      // ✅ Validate: empty or starts with http:// or https://
+      const isValid = value === '' || /^(https?:\/\/)/i.test(value.trim());
+      setIsLinkValid(isValid);
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -34,37 +82,47 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
     const files = Array.from(e.target.files);
 
     if (files.length > 5) {
-      toast.warn("You can only upload up to 5 files.");
+      console.warn("You can only upload up to 5 files.");
       return;
     }
 
     const validFiles = files.filter(file => {
       if (file.size > 10 * 1024 * 1024) {
-        toast.warn(`${file.name} is too large (max 10MB).`);
+        console.warn(`${file.name} is too large (max 10MB).`);
         return false;
       }
       return true;
     });
 
-    setUploadedFiles(prev => [...prev, ...validFiles]);
-    toast.info(`${validFiles.length} file(s) uploaded.`);
+    const newFiles = validFiles.map(file => ({
+      id: URL.createObjectURL(file),
+      name: file.name,
+      file
+    }));
+
+    setUploadedFiles(prev => [...prev, ...newFiles]);
   };
 
-  const removeFile = (fileName) => {
-    setUploadedFiles(prev => prev.filter(file => file.name !== fileName));
-    toast.info(`${fileName} removed.`);
+  const removeFile = (id) => {
+    setUploadedFiles(prev => prev.filter(file => file.id !== id));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ✅ Final validation before submit
+    if (formData.linkUrl && !/^(https?:\/\/)/i.test(formData.linkUrl.trim())) {
+      setIsLinkValid(false);
+      return;
+    }
+
     if (!formData.title.trim()) {
-      toast.warn("Task title is required.");
+      console.warn("Task title is required.");
       return;
     }
 
     if (!formData.dueDate) {
-      toast.warn("Please select a due date.");
+      console.warn("Please select a due date.");
       return;
     }
 
@@ -76,22 +134,28 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
     });
 
     onTaskCreated({
-      id: Date.now(), // ✅ ensure unique ID for toast check
+      id: Date.now(),
       title: formData.title,
       description: formData.description,
       dueDate: formData.dueDate,
-      formattedDate
+      formattedDate,
+      office: formData.for,
+      taskSlug: `task-${Date.now()}`,
+      linkUrl: formData.linkUrl,
+      attachments: uploadedFiles.map(f => f.name)
     });
 
     setUploadedFiles([]);
     setIsLinkInputVisible(false);
     onClose();
-
-    // ❌ Removed toast.success here (only parent shows it)
   };
 
   const toggleLinkInput = () => {
     setIsLinkInputVisible(prev => !prev);
+    // ✅ Reset validation when toggling
+    if (!isLinkInputVisible && formData.linkUrl) {
+      setIsLinkValid(/^(https?:\/\/)/i.test(formData.linkUrl.trim()));
+    }
   };
 
   return (
@@ -144,31 +208,18 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
             />
           </div>
 
-          {/* Description */}
+          {/* Description with Quill Editor */}
           <div className="task-form-group">
-            <label htmlFor="description">Description (optional)</label>
-            <div className="description-container">
-              <div className="task-form-text-toolbar">
-                <button type="button" className="text-btn"><HiMiniBold size={16} /></button>
-                <button type="button" className="text-btn"><FaItalic size={16} /></button>
-                <button type="button" className="text-btn"><FaUnderline size={16} /></button>
-                <button type="button" className="text-btn"><MdFormatListBulleted size={16} /></button>
-              </div>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Enter task description"
-                className="description-textarea"
-                rows="4"
-              ></textarea>
-            </div>
+            <label>Description (optional)</label>
+            <RichTextEditor
+              value={formData.description}
+              onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
+            />
           </div>
 
           {/* Attach */}
           <div className="task-form-group">
-            <label htmlFor="attach">Attach</label>
+            <label>Attach</label>
             <div className="task-form-attach">
               <div className="upload-link-container">
                 <div className="upload-item">
@@ -178,8 +229,13 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
                     onChange={handleFileUpload}
                     style={{ display: 'none' }}
                     multiple
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                   />
-                  <button type="button" className="upload-circle" onClick={() => document.getElementById('upload').click()}>
+                  <button
+                    type="button"
+                    className="upload-circle"
+                    onClick={() => document.getElementById('upload').click()}
+                  >
                     <FiUpload size={20} />
                   </button>
                   <span className="upload-label">Upload</span>
@@ -192,37 +248,38 @@ const TaskForm = ({ onClose, onTaskCreated = () => {} }) => {
                   <span className="link-label">Link</span>
                 </div>
               </div>
-            </div>
 
-            {uploadedFiles.length > 0 && (
-              <div className="uploaded-files-list">
-                {uploadedFiles.map((file, index) => (
-                  <div className="uploaded-file-item" key={index}>
-                    <span className="file-name">{file.name}</span>
-                    <button
-                      type="button"
-                      className="remove-file-btn"
-                      onClick={() => removeFile(file.name)}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {isLinkInputVisible && (
-              <div className="link-input-outer-container">
-                <input
-                  type="url"
-                  placeholder="Paste or type link"
-                  value={formData.linkUrl}
-                  name="linkUrl"
-                  onChange={handleChange}
-                  className="link-input"
+              {/* ✅ Use AttachedFiles Component */}
+              {uploadedFiles.length > 0 && (
+                <AttachedFiles
+                  files={uploadedFiles}
+                  onRemove={removeFile}
+                  isCompleted={false}
                 />
-              </div>
-            )}
+              )}
+
+              {/* Link Input */}
+              {isLinkInputVisible && (
+                <div className="link-input-outer-container">
+                  <input
+                    type="text"
+                    placeholder="https://example.com"
+                    value={formData.linkUrl}
+                    name="linkUrl"
+                    onChange={handleChange}
+                    className={`link-input ${!isLinkValid ? 'invalid' : ''}`}
+                    aria-invalid={!isLinkValid}
+                  />
+                </div>
+              )}
+
+              {/* 🔽 Error Message Below Input (after container) */}
+              {isLinkInputVisible && !isLinkValid && formData.linkUrl && (
+                <p className="error-text link-error-below">
+                  Please enter a valid link starting with <strong>http://</strong> or <strong>https://</strong>
+                </p>
+              )}
+            </div>
           </div>
 
           <button type="submit" className="assign-btn">Assign</button>

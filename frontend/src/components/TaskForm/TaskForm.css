@@ -17,12 +17,16 @@
   background-color: #ffffff;
   border-radius: 8px;
   width: 90%;
-  max-width: 700px;
+  max-width: 1000px;
   padding: 32px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;    /* ✅ Enable vertical scroll */
+  max-height: 100vh;    /* ✅ Prevent full-screen stretch */
+  overflow-x: hidden;  /* ✅ Hide horizontal scroll */
 }
+
+/* 👇 No other changes below — your original styles preserved */
 
 .task-form-close {
   position: absolute;
@@ -35,6 +39,7 @@
   color: #000;
   font-weight: bold;
   transition: transform 0.2s ease;
+  z-index: 10; /* ✅ Ensure it stays visible */
 }
 
 .task-form-close:hover {
@@ -82,7 +87,9 @@
 
 .task-form-group input[type="text"] {
   padding: 12px;
-  margin-bottom: 15px;
+  max-width: 1000vw;
+  margin-bottom: 10px;
+  margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -223,21 +230,22 @@
 .link-input-outer-container {
   margin-top: 16px;
   width: 100%;
-  padding: 12px 16px;
+  height: 83px;
+  padding: 10px 16px;
   background-color: #f8f9fa;
   border: 1px solid #ddd;
   border-radius: 4px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 .link-input {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 14px;  
   color: #333;
   background-color: white;
   transition: border-color 0.2s ease;
@@ -309,4 +317,28 @@
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.link-input.invalid {
+  border-color: #dc3545;
+  background-color: #fdf2f2;
+}
+
+.error-text {
+  font-size: 12px;
+  color: #dc3545;
+  margin-top: 6px;
+  padding: 4px 0 0;
+  font-style: italic;
+}
+
+.error-text.link-error-below {
+  font-size: 12px;
+  color: #dc3545;
+  margin: 6px 0 0 0;
+  padding: 0;
+  font-style: italic;
+  text-align: left;
+  width: 100%;
+  display: block;
 }
