@@ -1,6 +1,6 @@
 // src/layouts/ToDoLayout.jsx
 import React, { useMemo, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import TaskTabs from "../../../components/TaskTabs/TaskTabs";
 import { sectionData } from "../../../data/focals";
 import { createSlug } from "../../../utils/idGenerator";
@@ -8,6 +8,10 @@ import "./TaskPage.css";
 
 const TaskPage = () => {
   const [selectedOffice, setSelectedOffice] = useState("All Offices");
+  const location = useLocation();
+
+  // Check if we're on a task detail page (e.g. /task/ongoing/slug-here)
+  const isDetailPage = /^\/task\/(?:ongoing|incomplete|history)\/[^/]+$/.test(location.pathname);
 
   // Extract all offices
   const allOffices = useMemo(() => (
@@ -48,7 +52,11 @@ const TaskPage = () => {
       });
     });
 
-    return { upcomingTasks: upcoming, pastDueTasks: pastDue, completedTasks: completed };
+    return { 
+      upcomingTasks: upcoming, 
+      pastDueTasks: pastDue, 
+      completedTasks: completed 
+    };
   }, []);
 
   // Apply office filter
@@ -57,16 +65,19 @@ const TaskPage = () => {
 
   return (
     <div className="task-layout">
-      <TaskTabs
-        selectedOffice={selectedOffice}
-        onOfficeChange={setSelectedOffice}
-        allOffices={allOffices}
-        showUpcomingIndicator={upcomingTasks.length > 0}
-        showPastDueIndicator={pastDueTasks.length > 0}
-        showCompletedIndicator={completedTasks.length > 0}
-      />
+      {/* Only show TaskTabs when NOT on a detail page */}
+      {!isDetailPage && (
+        <TaskTabs
+          selectedOffice={selectedOffice}
+          onOfficeChange={setSelectedOffice}
+          allOffices={allOffices}
+          showUpcomingIndicator={upcomingTasks.length > 0}
+          showPastDueIndicator={pastDueTasks.length > 0}
+          showCompletedIndicator={completedTasks.length > 0}
+        />
+      )}
 
-      {/* Pass tasks down via Outlet context */}
+      {/* Pass filtered tasks to child routes */}
       <Outlet context={{
         upcomingTasks: filterByOffice(upcomingTasks),
         pastDueTasks: filterByOffice(pastDueTasks),

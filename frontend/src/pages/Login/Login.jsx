@@ -1,3 +1,4 @@
+// src/pages/Login/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Login.css";
@@ -11,7 +12,6 @@ import { loginAccounts, schoolAccountData, officeAccountData } from "../../data/
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [setIsHovering] = useState(false);
   const [error, setError] = useState(""); // ✅ Add error state
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +63,7 @@ const Login = () => {
       lastName: user.lastName,
       contactNumber: user.contactNumber,
       avatar: user.avatar,
-      role: isSchoolPath ? "school" : "office", // ✅ This is critical
+      role: isSchoolPath ? "school" : "office",
     }));
 
     // Redirect
@@ -126,7 +126,7 @@ const Login = () => {
                 <input
                   type="email"
                   id="email"
-                  name="email"  // ✅ Required for FormData.get("email")
+                  name="email"
                   className="login-form-input"
                   placeholder="Enter your email"
                   required
@@ -140,7 +140,7 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  name="password"  // ✅ Required
+                  name="password"
                   className="login-form-input"
                   placeholder="Enter password"
                   required
@@ -160,12 +160,8 @@ const Login = () => {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="login-button"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-            >
+            {/* ✅ Hover effect handled by CSS */}
+            <button type="submit" className="login-button">
               <FiLogIn className="login-icon" />
               Log in
             </button>

@@ -14,7 +14,7 @@ import SchoolDashboard from "./pages/Dashboard/SchoolDashboard";
 import SGOD from "./pages/SGOD/SGOD";
 import SectionPage from "./pages/Sections/SectionPage";
 import ManageAccount from "./pages/ManageAccount/ManageAccount";
-import AccountDisplay from "./pages/Schools/AccountDisplay/AccountDisplay"
+import AccountDisplay from "./pages/Schools/AccountDisplay/AccountDisplay";
 
 // School ToDo Dashboard
 import ToDoPage from "./pages/Todo/ToDoPage/ToDoPage";
@@ -23,14 +23,13 @@ import ToDoPastDue from "./pages/Todo/ToDoPastDue/ToDoPastDue";
 import ToDoCompleted from "./pages/Todo/ToDoCompleted/ToDoCompleted";
 import ToDoUpcoming from "./pages/Todo/ToDoUpcoming/ToDoUpcoming";
 import ToDoListPage from "./pages/ToDoListPage/ToDoListPage";
-import ToDoDetailPage from "./pages/ToDoDetailPage/ToDoDetailPage"; 
+import ToDoDetailPage from "./pages/ToDoDetailPage/ToDoDetailPage";
 
 // Office Task
 import TaskPage from "./pages/Task/TaskPage/TaskPage";
 import TaskOngoing from "./pages/Task/TaskOngoing/TaskOngoing";
 import TaskIncomplete from "./pages/Task/TaskIncomplete/TaskIncomplete";
 import TaskHistory from "./pages/Task/TaskHistory/TaskHistory";
-import TaskDetailPage from "./pages/TaskDetailPage/TaskDetailPage";
 
 
 function App() {
@@ -53,7 +52,7 @@ function App() {
           <Route path="task-list" element={<ToDoListPage />} />
           <Route path="task-list/:taskSlug" element={<ToDoDetailPage />} />
         </Route>
-        
+
         <Route path="/to-do" element={<ToDoPage />}>
           <Route path="upcoming" element={<ToDoUpcoming />} />
           <Route path="past-due" element={<ToDoPastDue />} />
@@ -65,18 +64,18 @@ function App() {
 
       {/* Office Protected Routes */}
       <Route element={<OfficeHome />}>
-      <Route path="/task" element={<TaskPage />}>
-        <Route path="ongoing" element={<TaskOngoing />}>
-          <Route path=":taskSlug" element={<TaskDetailPage />} />
+        <Route path="/task" element={<TaskPage />}>
+          {/* ✅ List view */}
+          <Route path="ongoing" element={<TaskOngoing />} />
+          <Route path="incomplete" element={<TaskIncomplete />} />
+          <Route path="history" element={<TaskHistory />} />
+
+          {/* ✅ Detail view – standalone, no list */}
+          {/* <Route path="ongoing/:taskSlug" element={<TaskDetailPage />} />
+          <Route path="incomplete/:taskSlug" element={<TaskDetailPage />} />
+          <Route path="history/:taskSlug" element={<TaskDetailPage />} /> */}
         </Route>
-        <Route path="incomplete" element={<TaskIncomplete />}>
-          <Route path=":taskSlug" element={<TaskDetailPage />} />
-        </Route>
-        <Route path="history" element={<TaskHistory />}>
-          <Route path=":taskSlug" element={<TaskDetailPage />} />
-        </Route>
-      </Route>
-        
+
         <Route path="/schools" element={<Schools />} />
         <Route path="/schools/:schoolSlug" element={<AccountDisplay />} />
         <Route path="/o-manage-account" element={<ManageAccount />} />

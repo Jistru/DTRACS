@@ -1,4 +1,4 @@
-/* Main App Container - Upcoming */
+/* Main App */
 .ongoing-app {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -6,10 +6,8 @@
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
 }
 
-/* Main Content - Upcoming */
 .ongoing-main {
   flex: 1;
   padding: 0;
@@ -19,7 +17,11 @@
   padding-top: 30px;
 }
 
-/* Date Header - Upcoming */
+/* Date Header */
+.ongoing-date-group {
+  margin-bottom: 20px;
+}
+
 .ongoing-date-header {
   font-size: 16px;
   color: #000;
@@ -31,103 +33,16 @@
   user-select: none;
 }
 
-.ongoing-weekday{
-  color: #999;
-  font-weight: normal;
-}
-
-/* Make the date bold */
 .ongoing-date-bold {
   font-weight: bold;
 }
 
-/* Task Link - Upcoming */
-.ongoing-task-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+.ongoing-weekday {
+  color: #999;
+  font-weight: normal;
 }
 
-/* Task Card - Upcoming (with hover effect) */
-.ongoing-card {
-  position: relative;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
-}
-
-.ongoing-card:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Flex container to vertically align content */
-.ongoing-card-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 40px;
-  gap: 12px;
-}
-
-/* Task title and meta */
-.ongoing-card-text {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Due Date & Time - Vertically centered, aligned right */
-.ongoing-card-deadline {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-}
-
-.ongoing-card-deadline .time {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-}
-
-/* Task Title - Upcoming */
-.ongoing-card-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 8px;
-}
-
-/* Optional: Office label below title */
-.ongoing-card-meta {
-  font-size: 14px;
-  color: #555;
-  margin-top: 4px;
-}
-
-.ongoing-office {
-  font-weight: 500;
-  color: #203061;
-}
-
-/* No tasks message */
-.ongoing-no-tasks {
-  text-align: center;
-  color: #888;
-  font-style: italic;
-  margin-top: 20px;
-}
-
-/* Header Actions - Right side */
+/* Header Actions (for dropdown arrow and task count) */
 .header-actions {
   display: flex;
   align-items: center;
@@ -135,14 +50,14 @@
   margin-left: auto;
 }
 
-/* Task Count - Blue number */
 .ongoing-task-count {
   font-size: 12px;
   margin-right: 10px;
   color: #2196f3;
   font-weight: bold;
 }
-/* Dropdown Arrow - With hover circle */
+
+/* Dropdown Arrow */
 .ongoing-dropdown-arrow {
   font-size: 20px;
   color: #2196f3;
@@ -158,7 +73,7 @@
   margin-right: 20px;
 }
 
-/* Hover Circle */
+/* Hover circle effect */
 .ongoing-dropdown-arrow::after {
   content: '';
   position: absolute;
@@ -189,6 +104,38 @@
   padding: 0;
 }
 
+/* Task Card */
+.ongoing-card {
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.ongoing-card:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.ongoing-card-content {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ongoing-card-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  overflow: hidden;
+}
+
 .ongoing-task-icon {
   background: #2196f3;
   color: white;
@@ -204,4 +151,74 @@
 .ongoing-task-icon svg {
   width: 20px;
   height: 20px;
+}
+
+.ongoing-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.ongoing-card-meta {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+.ongoing-card-deadline {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.ongoing-card-deadline .time {
+  font-weight: 500;
+}
+
+/* Expanded Actions */
+.expanded-actions {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expanded-description {
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+
+  margin: 0;
+}
+
+/* Professional "View Description" Button */
+.view-description-btn-professional {
+  align-self: flex-start;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: #4a67d1;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease, color 0.2s ease;
+  margin-top: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.view-description-btn-professional:hover {
+  text-decoration: underline;
+  color: #3a55b3;
+}
+
+.view-description-btn-professional:focus {
+  outline: none;
+  text-decoration: underline;
 }
