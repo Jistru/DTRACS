@@ -142,13 +142,28 @@ const TaskOngoing = () => {
                     </div>
 
                     {expandedId === task.id && (
-                      <div className="expanded-actions">
-                        <div className="expanded-description">
+                      <div className="expanded-actions-ong">
+                        {/* Description */}
+                        <div className="expanded-description-ong">
                           <p>{task.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>
                         </div>
-
+                        
+                        {/* ✅ Fixed Stats on Right */}
+                        <div className="task-stats-fixed">
+                          <div className="stat-item-large">
+                            <span className="stat-number">{task.submitted || 0}</span>
+                            <span className="stat-label">Submitted</span>
+                          </div>
+                          <div className="stat-separator-large">|</div>
+                          <div className="stat-item-large">
+                            <span className="stat-number">{task.assigned || 0}</span>
+                            <span className="stat-label">Assigned</span>
+                          </div>
+                        </div>
+                        
+                        {/* Button below */}
                         <button
-                          className="view-description-btn-professional"
+                          className="view-description-btn-professional-ong"
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/task/ongoing/${task.taskSlug}`);

@@ -1,63 +1,64 @@
-// src/pages/Todo/PastDue/PastDue.jsx
+// src/pages/Task/TaskIncomplete/TaskIncomplete.jsx
 import React, { useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { PiClipboardTextBold } from "react-icons/pi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import "./TaskIncomplete.css";
 
-// Helper: Convert date string to Date object for sorting
+// Helper: Parse date string
 const parseDate = (dateStr) => {
-  const [month, day, year] = dateStr.split(" ");
+  if (!dateStr || typeof dateStr !== "string") return new Date(0);
+  const parts = dateStr.split(" ");
+  if (parts.length < 3) return new Date(0);
+
+  const [month, day, year] = parts;
   const monthNames = {
-    January: 0,
-    February: 1,
-    March: 2,
-    April: 3,
-    May: 4,
-    June: 5,
-    July: 6,
-    August: 7,
-    September: 8,
-    October: 9,
-    November: 10,
-    December: 11,
+    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
   };
-  return new Date(
-    parseInt(year),
-    monthNames[month],
-    parseInt(day.replace(",", ""))
-  );
+
+  const monthIndex = monthNames[month];
+  if (monthIndex === undefined || isNaN(parseInt(year))) return new Date(0);
+
+  return new Date(parseInt(year), monthIndex, parseInt(day.replace(",", "")));
 };
 
-// Helper: Get weekday from date string
+// Helper: Get weekday
 const getWeekday = (dateStr) => {
   const date = parseDate(dateStr);
-  if (isNaN(date)) return "";
+  if (isNaN(date.getTime())) return "";
   return date.toLocaleDateString("en-US", { weekday: "long" });
 };
 
 const TaskIncomplete = () => {
-  // ✅ Get pre-filtered past-due tasks from ToDoPage layout
+  // ✅ Get past-due tasks from context
   const { pastDueTasks } = useOutletContext();
+  const [tasks] = useState(pastDueTasks || []);
+  const [expandedId, setExpandedId] = useState(null);
+  const [collapsedDates, setCollapsedDates] = useState({});
+  const navigate = useNavigate();
 
   // Group tasks by postDate
-  const groupedByDate = pastDueTasks.reduce((groups, task) => {
-    const date = task.postDate;
+  const groupedByDate = tasks.reduce((groups, task) => {
+    const date = task.postDate || "Unknown Date";
     if (!groups[date]) groups[date] = [];
     groups[date].push(task);
     return groups;
   }, {});
 
-  // Sort dates: newest first
-  const sortedDates = Object.keys(groupedByDate).sort((a, b) => parseDate(b) - parseDate(a));
-
-  // Track open/closed state for each group
-  const [openGroups, setOpenGroups] = useState(() =>
-    sortedDates.reduce((acc, date) => ({ ...acc, [date]: true }), {})
+  const sortedDates = Object.keys(groupedByDate).sort(
+    (a, b) => parseDate(b) - parseDate(a)
   );
 
-  const toggleGroup = (date) => {
-    setOpenGroups((prev) => ({
+  // Timer reference
+  let leaveTimer = null;
+
+  const toggleExpand = (id) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
+
+  const toggleDateCollapse = (date) => {
+    setCollapsedDates((prev) => ({
       ...prev,
       [date]: !prev[date],
     }));
@@ -68,69 +69,104 @@ const TaskIncomplete = () => {
       <main className="incomplete-main">
         {sortedDates.length > 0 ? (
           sortedDates.map((date) => {
-            const tasks = groupedByDate[date];
+            const dateTasks = groupedByDate[date];
             const weekday = getWeekday(date);
-            const isOpen = openGroups[date];
 
             return (
               <div key={date} className="incomplete-date-group">
-                <div
-                  className="incomplete-date-header"
-                  onClick={() => toggleGroup(date)}
-                  style={{ cursor: "pointer", userSelect: "none" }}
-                >
-                  <span className="incomplete-date-bold">{date}</span>
-                  <span className="incomplete-weekday"> ({weekday})</span>
-
+                <div className="incomplete-date-header">
+                  <div>
+                    <span className="incomplete-date-bold">{date}</span>
+                    <span className="incomplete-weekday"> ({weekday})</span>
+                  </div>
                   <div className="header-actions">
-                    <span className="incomplete-task-count">{tasks.length}</span>
+                    <span className="incomplete-task-count">{dateTasks.length} </span>
                     <span
                       className="incomplete-dropdown-arrow"
-                      aria-label={isOpen ? "Collapse" : "Expand"}
+                      onClick={() => toggleDateCollapse(date)}
+                      aria-label={collapsedDates[date] ? "Collapse" : "Expand"}
                     >
-                      {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                      {collapsedDates[date] ? <IoIosArrowDown /> : <IoIosArrowUp />}
                     </span>
                   </div>
                 </div>
 
-                {isOpen && (
-                  <div className="incomplete-task-list">
-                    {tasks.map((task) => (
-                      <Link
-                        to={`/task/incomplete/${task.taskSlug}`}
-                        className="incomplete-task-link"
-                        key={task.id}
+                {!collapsedDates[date] &&
+                  dateTasks.map((task) => (
+                    <div
+                      key={task.id}
+                      className="incomplete-card"
+                      onMouseEnter={() => {
+                        if (leaveTimer) {
+                          clearTimeout(leaveTimer);
+                          leaveTimer = null;
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        leaveTimer = setTimeout(() => {
+                          setExpandedId(null);
+                        }, 300);
+                      }}
+                    >
+                      <div
+                        className="incomplete-card-content"
+                        onClick={() => toggleExpand(task.id)}
+                        style={{ cursor: "pointer" }}
                       >
-                        <div className="incomplete-card">
-                          <div className="incomplete-card-content">
-                            <div className="incomplete-card-text">
-                              <div className="incomplete-task-icon">
-                                <PiClipboardTextBold className="icon-lg" />
-                              </div>
-                              <div>
-                                <div className="incomplete-card-title">
-                                  {task.title}
-                                </div>
-                                <div className="incomplete-card-meta">
-                                  <span className="incomplete-office">
-                                    {task.office}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="incomplete-card-deadline">
-                              <span className="deadline-text">
-                                Due on {task.dueDate} at{" "}
-                                <span className="time">{task.dueTime}</span>
-                              </span>
+                        <div className="incomplete-card-text">
+                          <div className="incomplete-task-icon">
+                            <PiClipboardTextBold className="icon-lg" />
+                          </div>
+                          <div>
+                            <div className="incomplete-card-title">{task.title}</div>
+                            <div className="incomplete-card-meta">
+                              <span className="incomplete-office">{task.office}</span>
                             </div>
                           </div>
                         </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
+
+                        <div className="incomplete-card-deadline">
+                          <span className="deadline-text">
+                            Due on {task.dueDate} at{" "}
+                            <span className="time">{task.dueTime}</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      {expandedId === task.id && (
+                        <div className="expanded-actions-inc">
+                          {/* Description */}
+                          <div className="expanded-description-inc">
+                            <p>{task.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>
+                          </div>
+
+                          {/* ✅ Fixed Stats on Right */}
+                          <div className="task-stats-fixed">
+                            <div className="stat-item-large">
+                              <span className="stat-number">{task.submitted || 0}</span>
+                              <span className="stat-label">Submitted</span>
+                            </div>
+                            <div className="stat-separator-large">|</div>
+                            <div className="stat-item-large">
+                              <span className="stat-number">{task.assigned || 0}</span>
+                              <span className="stat-label">Assigned</span>
+                            </div>
+                          </div>
+
+                          {/* Button below */}
+                          <button
+                            className="view-description-btn-professional-inc"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/task/incomplete/${task.taskSlug}`);
+                            }}
+                          >
+                            View Description
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
             );
           })

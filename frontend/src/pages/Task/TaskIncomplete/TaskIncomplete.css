@@ -6,7 +6,6 @@
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
 }
 
 /* Main Content */
@@ -17,9 +16,14 @@
   border: none;
   overflow-y: auto;
   padding-top: 30px;
+  padding-left: 20px;
 }
 
 /* Date Header */
+.incomplete-date-group {
+  margin-bottom: 20px;
+}
+
 .incomplete-date-header {
   font-size: 16px;
   color: #000;
@@ -48,15 +52,15 @@
   margin-left: auto;
 }
 
-/* Task Count - Red number */
+/* Task Count */
 .incomplete-task-count {
   font-size: 12px;
-  color: #d32f2f;
-  font-weight: bold;
   margin-right: 10px;
+  color: #d32f2f; /* Red for incomplete */
+  font-weight: bold;
 }
 
-/* Dropdown Arrow - With hover circle */
+/* Dropdown Arrow */
 .incomplete-dropdown-arrow {
   font-size: 20px;
   color: #d32f2f;
@@ -72,6 +76,7 @@
   margin-right: 20px;
 }
 
+/* Hover circle effect */
 .incomplete-dropdown-arrow::after {
   content: '';
   position: absolute;
@@ -102,39 +107,32 @@
   padding: 0;
 }
 
-/* Task Link */
-.incomplete-task-link {
-  text-decoration: none;
-  display: block;
-}
-
 /* Task Card */
 .incomplete-card {
-  position: relative;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  transition: box-shadow 0.2s ease;
+  position: relative; /* Needed for absolute positioning */
 }
 
 .incomplete-card:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transform: translateY(-1px);
 }
 
-/* Flex container */
+/* Card Content */
 .incomplete-card-content {
+  padding: 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  min-height: 40px;
+  align-items: center;
   gap: 12px;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Task Icon + Text */
 .incomplete-card-text {
   display: flex;
   align-items: center;
@@ -143,52 +141,7 @@
   overflow: hidden;
 }
 
-/* Task Title */
-.incomplete-card-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 8px;
-}
-
-/* Office Meta */
-.incomplete-card-meta {
-  font-size: 14px;
-  color: #555;
-  margin-top: 4px;
-}
-
-.incomplete-office {
-  font-weight: 500;
-  color: #555;
-}
-
-/* Deadline */
-.incomplete-card-deadline {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-}
-
-.incomplete-card-deadline .time {
-  flex-shrink: 0;
-  text-align: right;
-  font-weight: bold;
-  font-size: 12px;
-  color: #d32f2f;
-  white-space: nowrap;
-}
-
-/* No tasks message */
-.incomplete-no-tasks {
-  text-align: center;
-  color: #888;
-  font-style: italic;
-  margin-top: 20px;
-}
-
+/* Task Icon */
 .incomplete-task-icon {
   background: #d32f2f;
   color: white;
@@ -204,4 +157,147 @@
 .incomplete-task-icon svg {
   width: 20px;
   height: 20px;
+}
+
+/* Task Title */
+.incomplete-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+/* Office Meta */
+.incomplete-card-meta {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Deadline */
+.incomplete-card-deadline {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.incomplete-card-deadline .time {
+  font-weight: 500;
+}
+
+/* Expanded Actions */
+.expanded-actions-inc {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+  position: relative; /* Enable absolute positioning */
+  min-height: 80px;
+}
+
+/* Expanded Description - Incomplete (8 properties only, no background/border) */
+.expanded-description-inc {
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  border-radius: 4px;
+  margin: 0;
+  max-width: 1000px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+/* ✅ Fixed Stats on Right */
+.task-stats-fixed {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 10;
+}
+
+.task-stats-fixed * {
+  pointer-events: auto;
+}
+
+/* Stat Items */
+.stat-item-large {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 40px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #555;
+  font-weight: normal;
+}
+
+.stat-separator-large {
+  font-size: 12px;
+  color: #ccc;
+  font-weight: 500;
+  align-self: center;
+  margin-top: 12px;
+}
+
+/* Professional "View Description" Button */
+.view-description-btn-professional-inc {
+  align-self: flex-start;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: #4a67d1;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease, color 0.2s ease;
+  margin-top: 8px;
+  margin-left: 9px;
+  font-family: Arial, sans-serif;
+}
+
+.view-description-btn-professional-inc:hover {
+  text-decoration: underline;
+  color: #3a55b3;
+}
+
+.view-description-btn-professional-inc:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* No Tasks */
+.incomplete-no-tasks {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Responsive: Stack Stats Below on Small Screens */
+@media (max-width: 768px) {
+  .task-stats-fixed {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    gap: 16px;
+  }
 }

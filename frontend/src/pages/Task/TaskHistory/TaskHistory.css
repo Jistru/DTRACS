@@ -6,7 +6,6 @@
   min-height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
 }
 
 /* Main Content */
@@ -17,9 +16,14 @@
   border: none;
   overflow-y: auto;
   padding-top: 30px;
+  padding-left: 20px;
 }
 
 /* Date Header */
+.history-date-group {
+  margin-bottom: 20px;
+}
+
 .history-date-header {
   font-size: 16px;
   color: #000;
@@ -48,15 +52,15 @@
   margin-left: auto;
 }
 
-/* Task Count - Green number */
+/* Task Count */
 .history-task-count {
   font-size: 12px;
+  margin-right: 10px;
   color: #555;
   font-weight: bold;
-  margin-right: 10px;
 }
 
-/* Dropdown Arrow - With hover circle */
+/* Dropdown Arrow */
 .history-dropdown-arrow {
   font-size: 20px;
   color: #555;
@@ -72,6 +76,7 @@
   margin-right: 20px;
 }
 
+/* Hover circle effect */
 .history-dropdown-arrow::after {
   content: '';
   position: absolute;
@@ -102,39 +107,32 @@
   padding: 0;
 }
 
-/* Task Link */
-.history-task-link {
-  text-decoration: none;
-  display: block;
-}
-
 /* Task Card */
 .history-card {
-  position: relative;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  transition: box-shadow 0.2s ease;
+  position: relative;
 }
 
 .history-card:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transform: translateY(-1px);
 }
 
-/* Flex container */
+/* Card Content */
 .history-card-content {
+  padding: 16px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  min-height: 40px;
+  align-items: center;
   gap: 12px;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Task Icon + Text */
 .history-card-text {
   display: flex;
   align-items: center;
@@ -143,51 +141,7 @@
   overflow: hidden;
 }
 
-/* Task Title */
-.history-card-title {
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  margin-bottom: 8px;
-}
-
-/* Office Meta */
-.history-card-meta {
-  font-size: 14px;
-  color: #555;
-  margin-top: 4px;
-}
-
-.history-office {
-  font-weight: 500;
-  color: #555;
-}
-
-/* Completion Time */
-.history-card-completion {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-}
-
-.history-card-completion .time {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-}
-
-/* No tasks message */
-.history-no-tasks {
-  text-align: center;
-  color: #888;
-  font-style: italic;
-  margin-top: 20px;
-}
-
+/* Task Icon */
 .history-task-icon {
   background: #555;
   color: white;
@@ -203,4 +157,147 @@
 .history-task-icon svg {
   width: 20px;
   height: 20px;
+}
+
+/* Task Title */
+.history-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+/* Office Meta */
+.history-card-meta {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Completion Time */
+.history-card-completion {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 12px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.history-card-completion .time {
+  font-weight: 500;
+}
+
+/* Expanded Actions - History */
+.expanded-actions-his {
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+  position: relative;
+  min-height: 80px;
+}
+
+/* Expanded Description - History (8 properties only) */
+.expanded-description-his {
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  border-radius: 4px;
+  margin: 0;
+  max-width: 800px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+/* ✅ Fixed Stats on Right */
+.task-stats-fixed {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  pointer-events: none;
+  background-color: transparent;
+  z-index: 10;
+}
+
+.task-stats-fixed * {
+  pointer-events: auto;
+}
+
+/* Stat Items */
+.stat-item-large {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 40px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #555;
+  font-weight: normal;
+}
+
+.stat-separator-large {
+  font-size: 12px;
+  color: #ccc;
+  font-weight: 500;
+  align-self: center;
+  margin-top: 12px;
+}
+
+/* Professional "View Description" Button */
+.view-description-btn-professional-his {
+  align-self: flex-start;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: #4a67d1;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease, color 0.2s ease;
+  margin-top: 8px;
+  margin-left: 9px;
+  font-family: Arial, sans-serif;
+}
+
+.view-description-btn-professional:hover {
+  text-decoration: underline;
+  color: #3a55b3;
+}
+
+.view-description-btn-professional:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* No Tasks */
+.history-no-tasks {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Responsive: Stack Stats Below on Small Screens */
+@media (max-width: 768px) {
+  .task-stats-fixed {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    gap: 16px;
+  }
 }

@@ -1,3 +1,4 @@
+// src/data/focals.js
 import { idFromName } from "../utils/idGenerator";
 import avatar2 from '../assets/images/avatar2.png';
 
@@ -20,6 +21,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 2,
+          assigned: 14
         },
       ],
     },
@@ -43,6 +46,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 3,
+          assigned: 12
         },
       ],
     },
@@ -63,6 +68,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 4,
+          assigned: 14
         },
       ],
     },
@@ -86,6 +93,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 5,
+          assigned: 14
         },
       ],
     },
@@ -109,6 +118,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 6,
+          assigned: 14
         },
         {
           id: 6,
@@ -120,6 +131,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 8,
+          assigned: 14
         },
       ],
     },
@@ -143,6 +156,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 9,
+          assigned: 14
         },
         {
           id: 8,
@@ -154,6 +169,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 14,
+          assigned: 14
         },
       ],
     },
@@ -177,6 +194,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 7,
+          assigned: 14
         },
       ],
     },
@@ -187,7 +206,7 @@ export const sectionData = {
       id: idFromName("Dr. Liza M. Cruz"),
       avatar: avatar2,
       title: "Dental",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
       tasklist: [
         {
@@ -200,6 +219,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 5,
+          assigned: 14
         },
       ],
     },
@@ -207,7 +228,7 @@ export const sectionData = {
       id: idFromName("Nurse Juan P. Dela Cruz"),
       avatar: avatar2,
       title: "Medical",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
       tasklist: [
         {
@@ -220,6 +241,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 14,
+          assigned: 14
         },
       ],
     },
@@ -227,51 +250,41 @@ export const sectionData = {
       id: idFromName("Teacher Anna L. Perez"),
       avatar: avatar2,
       title: "SBFP",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
-      tasklist: [
-        
-      ],
+      tasklist: [],
     },
     {
       id: idFromName("Teacher Anna L. Perez"),
       avatar: avatar2,
       title: "GPP",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
-      tasklist: [
-        
-      ],
+      tasklist: [],
     },
     {
       id: idFromName("Teacher Anna L. Perez"),
       avatar: avatar2,
       title: "WINS",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
-      tasklist: [
-        
-      ],
+      tasklist: [],
     },
     {
       id: idFromName("Teacher Anna L. Perez"),
       avatar: avatar2,
       title: "NDEP",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
-      tasklist: [
-        
-      ],
+      tasklist: [],
     },
     {
       id: idFromName("Teacher Anna L. Perez"),
       avatar: avatar2,
       title: "RH",
-      focalPerson: "Focal_Name", // Replace with actual focal name
+      focalPerson: "Focal_Name",
       path: "task-list",
-      tasklist: [
-        
-      ],
+      tasklist: [],
     },
   ],
 
@@ -293,6 +306,8 @@ export const sectionData = {
           dueTime: "11:59 PM",
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          submitted: 10,
+          assigned: 14
         },
       ],
     },
