@@ -149,15 +149,15 @@ const TaskOngoing = () => {
                         </div>
                         
                         {/* ✅ Fixed Stats on Right */}
-                        <div className="task-stats-fixed">
-                          <div className="stat-item-large">
-                            <span className="stat-number">{task.submitted || 0}</span>
-                            <span className="stat-label">Submitted</span>
+                        <div className="task-stats-fixed-ong">
+                          <div className="stat-item1-large-ong">
+                            <span className="stat-number1-ong">{task.submitted || 0}</span>
+                            <span className="stat-label1-ong">Submitted</span>
                           </div>
                           <div className="stat-separator-large">|</div>
-                          <div className="stat-item-large">
-                            <span className="stat-number">{task.assigned || 0}</span>
-                            <span className="stat-label">Assigned</span>
+                          <div className="stat-item2-large-ong">
+                            <span className="stat-number2-ong">{task.assigned || 0}</span>
+                            <span className="stat-label2-ong">Assigned</span>
                           </div>
                         </div>
                         

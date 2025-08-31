@@ -141,14 +141,14 @@ const TaskHistory = () => {
 
                         {/* ✅ Fixed Stats on Right */}
                         <div className="task-stats-fixed">
-                          <div className="stat-item-large">
-                            <span className="stat-number">{task.submitted || 2}</span>
-                            <span className="stat-label">Submitted</span>
+                          <div className="stat-item1-large-his">
+                            <span className="stat-number1-his">{task.submitted || 0}</span>
+                            <span className="stat-label1">Submitted</span>
                           </div>
                           <div className="stat-separator-large">|</div>
-                          <div className="stat-item-large">
-                            <span className="stat-number">{task.assigned || 14}</span>
-                            <span className="stat-label">Assigned</span>
+                          <div className="stat-item2-large-his">
+                            <span className="stat-number2-his">{task.assigned || 0}</span>
+                            <span className="stat-label2">Assigned</span>
                           </div>
                         </div>
 

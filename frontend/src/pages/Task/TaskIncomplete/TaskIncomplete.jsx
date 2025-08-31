@@ -142,14 +142,14 @@ const TaskIncomplete = () => {
 
                           {/* ✅ Fixed Stats on Right */}
                           <div className="task-stats-fixed">
-                            <div className="stat-item-large">
-                              <span className="stat-number">{task.submitted || 0}</span>
-                              <span className="stat-label">Submitted</span>
+                            <div className="stat-item1-large-inc">
+                              <span className="stat-number1-inc">{task.submitted || 0}</span>
+                              <span className="stat-label1">Submitted</span>
                             </div>
                             <div className="stat-separator-large">|</div>
-                            <div className="stat-item-large">
-                              <span className="stat-number">{task.assigned || 0}</span>
-                              <span className="stat-label">Assigned</span>
+                            <div className="stat-item2-large-inc">
+                              <span className="stat-number2-inc">{task.assigned || 0}</span>
+                              <span className="stat-label2">Assigned</span>
                             </div>
                           </div>
 

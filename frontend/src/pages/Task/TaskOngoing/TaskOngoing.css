@@ -203,7 +203,7 @@
 }
 
 /* ✅ Fixed Stats on Right */
-.task-stats-fixed {
+.task-stats-fixed-ong {
   position: absolute;
   top: 20px;
   right: 24px;
@@ -215,12 +215,13 @@
   z-index: 10;
 }
 
-.task-stats-fixed * {
+.task-stats-fixed-ong * {
   pointer-events: auto;
 }
 
 /* Stat Items */
-.stat-item-large {
+.stat-item1-large-ong,
+.stat-item2-large-ong {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -228,14 +229,17 @@
   min-width: 40px;
 }
 
-.stat-number {
+.stat-number1-ong, 
+.stat-number2-ong {
   font-size: 24px;
   font-weight: bold;
   color: #000;
   margin-bottom: 4px;
 }
 
-.stat-label {
+
+.stat-label1-ong,
+.stat-label2-ong {
   font-size: 12px;
   color: #555;
   font-weight: normal;

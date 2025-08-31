@@ -227,7 +227,8 @@
 }
 
 /* Stat Items */
-.stat-item-large {
+.stat-item1-large-his,
+.stat-item2-large-his {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -235,14 +236,16 @@
   min-width: 40px;
 }
 
-.stat-number {
+.stat-number1-his,
+.stat-number2-his {
   font-size: 24px;
   font-weight: bold;
-  color: #000;
+  color: #555;
   margin-bottom: 4px;
 }
 
-.stat-label {
+.stat-label1-his,
+.stat-label2-his {
   font-size: 12px;
   color: #555;
   font-weight: normal;
@@ -273,7 +276,7 @@
   font-family: Arial, sans-serif;
 }
 
-.view-description-btn-professional:hover {
+.view-description-btn-professional-his:hover {
   text-decoration: underline;
   color: #3a55b3;
 }
