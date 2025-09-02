@@ -145,7 +145,6 @@ const TaskOngoing = () => {
                       <div className="expanded-actions-ong">
                         {/* Description */}
                         <div className="expanded-description-ong">
-                          <p>{task.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}</p>
                         </div>
                         
                         {/* ✅ Fixed Stats on Right */}

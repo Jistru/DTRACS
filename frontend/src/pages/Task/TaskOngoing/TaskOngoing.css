@@ -265,7 +265,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: text-decoration 0.2s ease, color 0.2s ease;
-  margin-top: 8px;
+  margin-top: 16px;
   margin-left: 9px;
   font-family: Arial, sans-serif;
 }
